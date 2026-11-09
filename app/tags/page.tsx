@@ -1,0 +1,3 @@
+import type {Metadata} from 'next';import Link from 'next/link';import {getAllTags} from '@/lib/articles';
+export const metadata:Metadata={title:'Tags',description:'Explore ByteScope writing by topic and keyword.'};
+export default async function TagsPage(){const tags=await getAllTags();return <main className="page-shell page-section"><div className="page-intro"><span className="eyebrow">FOLLOW YOUR CURIOSITY</span><h1>Explore by <em>tag.</em></h1><p>Choose a subject to find articles connected by an idea, tool or technology.</p></div><div className="tag-cloud">{tags.map(tag=><Link href={`/tags/${tag.slug}`} className="tag-pill" key={tag.slug}>{tag.name}<span>{tag.count}</span></Link>)}</div></main>}
