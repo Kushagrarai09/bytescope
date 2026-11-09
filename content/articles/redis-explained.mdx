@@ -1,0 +1,65 @@
+---
+title: "Redis Explained: The In-Memory Data Store Behind Fast Applications"
+description: "Understand Redis data structures, caching, persistence, expiration, and the trade-offs behind in-memory storage."
+category: "Backend Engineering"
+categorySlug: "backend-engineering"
+date: "2026-11-07"
+author: "Kushagra Rai"
+readTime: "8 min read"
+cover: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1800&q=85"
+tags: [Redis, Caching, Databases, Backend]
+---
+
+## What is Redis?
+
+Redis is an in-memory data structure server commonly used as a cache, a fast shared data layer, and a building block for messaging workflows. It is known for low-latency operations and data structures that go beyond plain strings.
+
+## Data structures, not just key-value pairs
+
+Redis stores values under keys. Values can be strings, hashes, lists, sets, sorted sets, streams and other structures. A session might live in a hash, while a leaderboard can use a sorted set.
+
+```text
+SET session:abc "user-42"
+GET session:abc
+EXPIRE session:abc 3600
+```
+
+This stores a value, reads it, and sets a one-hour expiration.
+
+## Redis as a cache
+
+A cache keeps a copy of data that is expensive to compute or fetch. A common pattern is cache-aside:
+
+1. Check Redis for the key.
+2. On a hit, return the cached value.
+3. On a miss, query the source database.
+4. Store the result with a suitable TTL.
+5. Return the result.
+
+The challenge is freshness. TTL selection, invalidation, concurrent misses and cache stampedes all need to be considered. A cache makes reads faster, but it also introduces a second copy of data that can become stale.
+
+## Persistence and durability
+
+Although Redis is memory-first, it supports persistence. RDB snapshots save point-in-time datasets. Append-only files (AOF) record write operations that can be replayed during recovery. These approaches have different performance and durability trade-offs.
+
+A cache may be recoverable by repopulating it from a database. A queue or business-critical state has a different reliability requirement. Choose persistence and replication settings according to the role of the data.
+
+## Beyond caching
+
+Lists and streams can support queue-like patterns. Sets help with membership checks. Sorted sets support ranking. Pub/Sub provides transient fan-out, while Redis Streams retain entries and support consumer groups.
+
+These features do not automatically make Redis a replacement for every database or broker. Consider delivery guarantees, retention, replay, throughput, and failure recovery when selecting infrastructure.
+
+## Common mistakes
+
+- Treating Redis as the source of truth without a clear durability plan.
+- Forgetting TTLs for temporary values.
+- Ignoring hot keys and memory pressure.
+- Assuming cache invalidation is trivial.
+- Choosing persistence settings without understanding recovery objectives.
+
+## When should you use Redis?
+
+Redis is useful for hot application data, sessions, rate limits, counters, leaderboards and some asynchronous workflows. It is less suitable for complex relational queries or large durable records that need database-grade transactions.
+
+The best Redis design is not simply the fastest one. It is the one whose data model, memory policy, persistence and failure behaviour match your workload.
