@@ -1,0 +1,6 @@
+'use client';
+import { createContext, useContext, useEffect, useState } from 'react';
+type BookmarkContextValue = { bookmarks: string[]; isBookmarked: (slug: string) => boolean; toggleBookmark: (slug: string) => void };
+const BookmarkContext = createContext<BookmarkContextValue | null>(null);
+export function BookmarkProvider({ children }: { children: React.ReactNode }) { const [bookmarks, setBookmarks] = useState<string[]>([]); useEffect(() => { try { const stored = JSON.parse(localStorage.getItem('bytescope:bookmarks') || '[]'); if (Array.isArray(stored)) setBookmarks(stored); } catch { setBookmarks([]); } }, []); function toggleBookmark(slug: string) { setBookmarks((current) => { const next = current.includes(slug) ? current.filter((item) => item !== slug) : [...current, slug]; localStorage.setItem('bytescope:bookmarks', JSON.stringify(next)); return next; }); } return <BookmarkContext.Provider value={{ bookmarks, isBookmarked: (slug) => bookmarks.includes(slug), toggleBookmark }}>{children}</BookmarkContext.Provider>; }
+export function useBookmarks() { const context = useContext(BookmarkContext); if (!context) throw new Error('useBookmarks must be used within BookmarkProvider'); return context; }
