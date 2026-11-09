@@ -1,0 +1,59 @@
+---
+title: "What Is an API? A Practical Guide to How Software Talks"
+description: "Learn what APIs are, how requests and responses work, and why APIs are the building blocks of modern software."
+category: "Software Engineering"
+categorySlug: "software-engineering"
+date: "2026-11-06"
+author: "Kushagra Rai"
+readTime: "7 min read"
+cover: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1800&q=85"
+tags: [APIs, REST, HTTP, Backend, Software Design]
+---
+
+## What is an API?
+
+An API, or Application Programming Interface, is a defined way for one piece of software to interact with another. It describes which operations are available, what inputs they accept and what outputs or errors a caller can expect.
+
+Think of an API as a contract. A mobile app does not need to know how a payment provider stores its data. It needs to know which request to send and what response means success or failure.
+
+## Why APIs matter
+
+Modern software is made from components that need to cooperate. A frontend asks a backend for a profile. A backend may ask a payment provider to create a transaction. A workflow service may notify another system when a job completes.
+
+APIs provide a stable boundary. Teams can change internal implementations while preserving the external contract, provided the behaviour remains compatible.
+
+## How an HTTP API works
+
+A client sends a request to an endpoint. The request typically includes an HTTP method, a path, headers and sometimes a body. The server validates the request, performs the operation and returns a status code with response data.
+
+```http
+GET /api/users/42 HTTP/1.1
+Accept: application/json
+```
+
+A JSON response might look like this:
+
+```json
+{
+  "id": 42,
+  "name": "Avery"
+}
+```
+
+GET commonly retrieves data, POST creates or processes, PUT replaces, PATCH partially updates and DELETE removes. The API contract should describe the exact semantics.
+
+## Status codes communicate outcomes
+
+`200 OK` indicates success, `201 Created` commonly follows resource creation, `204 No Content` indicates success without a response body, `400 Bad Request` signals invalid input, `401 Unauthorized` means credentials are missing or invalid, `403 Forbidden` means the caller lacks permission, and `404 Not Found` means the resource cannot be found.
+
+## APIs need contracts
+
+A useful API documents its routes, request schemas, response shapes, authentication requirements, error behaviour and versioning strategy. Good contracts make integrations predictable and easier to maintain.
+
+## REST is one style, not the only style
+
+REST is a common architectural style for HTTP APIs. Other approaches include GraphQL, which lets clients request shaped data through a schema, and gRPC, which uses service definitions and efficient remote procedure calls. The right choice depends on clients, performance needs and team constraints.
+
+## Key takeaways
+
+APIs are interfaces, not magic. They create boundaries between systems, make capabilities reusable and let teams evolve implementations behind stable contracts. Once you understand requests, responses, methods, status codes and schemas, backend architecture becomes much easier to reason about.
