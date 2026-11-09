@@ -1,0 +1,5 @@
+import Link from 'next/link';
+import { categories } from '@/lib/site';
+import { getAllArticles } from '@/lib/articles';
+export const metadata = { title: 'Categories', description: 'Explore ByteScope articles by topic.' };
+export default async function CategoriesPage() { const articles = await getAllArticles(); return <section className="page-shell page-section"><div className="page-intro"><span className="eyebrow">FIND YOUR NEXT RABBIT HOLE</span><h1>Explore by <em>interest.</em></h1><p>Technology is a big universe. Start with the topic that interests you most.</p></div><div className="category-grid">{categories.map((category, index) => { const count = articles.filter((article) => article.categorySlug === category.slug).length; return <Link href={`/categories/${category.slug}`} className="category-card" key={category.slug}><span className="category-number">0{index + 1}</span><h2>{category.name}</h2><p>{category.description}</p><span className="category-count">{count} {count === 1 ? 'story' : 'stories'}</span></Link>; })}</div></section>; }
