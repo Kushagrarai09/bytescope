@@ -1,0 +1,100 @@
+---
+title: "How the Internet Actually Works: From a URL to a Web Page"
+description: "Follow the journey of a URL through DNS, TCP, TLS, HTTP, servers, CDNs, and browser rendering."
+category: "Web Development"
+categorySlug: "web-development"
+date: "2026-11-08"
+author: "Kushagra Rai"
+readTime: "12 min read"
+cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1800&q=85"
+featured: true
+tags: [Internet, DNS, HTTP, TLS, Browsers, Networking]
+---
+
+## The short answer
+
+When you enter a URL, your browser turns a human-readable address into a network request, finds the right server, establishes a connection, asks for a resource, and renders the response. Many layers cooperate to make this feel instant.
+
+## Step 1: The browser understands the URL
+
+A URL is more than a website name. It contains the information a browser needs to locate a resource. Consider `https://example.com/products?id=42`:
+
+- `https` is the scheme, telling the browser to use HTTP securely.
+- `example.com` is the hostname.
+- `/products` is the path.
+- `id=42` is a query parameter.
+
+The browser parses the address, checks whether it already knows the destination, and prepares to resolve the hostname if necessary.
+
+## Step 2: DNS finds the server
+
+The Domain Name System (DNS) is the internet's naming system. It translates hostnames such as `example.com` into IP addresses that computers can route traffic to.
+
+Before asking a resolver, the browser and operating system may check cached results. If nothing is available, a recursive resolver follows the DNS hierarchy, eventually reaching an authoritative nameserver for the domain.
+
+The answer can include an IPv4 A record or an IPv6 AAAA record. DNS responses have a time-to-live (TTL), so results can be cached for a defined period rather than looked up for every request.
+
+## Step 3: A connection is established
+
+With an IP address available, the browser needs a transport connection. For HTTP/1.1 and HTTP/2, this commonly means TCP. TCP begins with a three-way handshake: SYN, SYN-ACK, and ACK. The two sides agree on connection state before application data moves.
+
+TCP provides a reliable, ordered byte stream. It handles retransmission and flow control, which means applications do not have to implement those mechanisms themselves.
+
+HTTP/3 uses QUIC instead of TCP. QUIC runs over UDP but provides reliable streams and integrates security. It can reduce setup latency and handle network changes more gracefully.
+
+## Step 4: The browser sends an HTTP request
+
+For an HTTPS URL, the browser performs a TLS handshake. The server presents a certificate, the browser validates that certificate and its hostname, and both sides establish shared session keys. TLS then encrypts and authenticates the traffic.
+
+After the connection is ready, the browser sends an HTTP request. A simplified request could look like this:
+
+```http
+GET /products?id=42 HTTP/2
+Host: example.com
+Accept: text/html
+```
+
+HTTP defines the structure and meaning of requests and responses. It does not dictate how every network packet travels.
+
+## Step 5: The server builds a response
+
+The request may first reach a reverse proxy or load balancer. The application server then interprets the route, validates input, checks permissions, reads data from a database or cache, and creates a response.
+
+An HTTP response includes a status code, headers, and often a body. A `200` signals success, a `404` indicates that a resource was not found, and a `500` represents an unexpected server-side error.
+
+For dynamic pages, the server may render HTML. For an API, it may return JSON. Response headers can control caching, content type, compression, cookies, and other browser behaviour.
+
+## Step 6: The browser renders the page
+
+The browser parses HTML into the Document Object Model (DOM). It processes CSS into the CSS Object Model (CSSOM), combines the structures into a render tree, and calculates layout. It then paints visual layers and composites them onto the screen.
+
+JavaScript can update the DOM and styles, which may trigger layout or paint work again. Images, fonts, stylesheets, and scripts may load in parallel, and the browser schedules work to keep the page responsive.
+
+## Where CDNs fit in
+
+A Content Delivery Network (CDN) stores cacheable content at points of presence around the world. If a user in Mumbai requests an image and a nearby CDN location has a fresh copy, the content can be served without contacting the origin server.
+
+This reduces latency and origin load. Cache-control headers and TTL values influence how long responses can be reused. Personalised or sensitive responses usually need more careful caching rules.
+
+## Putting it all together
+
+The complete journey can be summarised as:
+
+1. Parse the URL.
+2. Resolve the hostname with DNS.
+3. Establish a TCP or QUIC connection.
+4. Negotiate TLS for HTTPS.
+5. Send an HTTP request.
+6. Route and process the request at the edge and origin.
+7. Receive the response, perhaps from a CDN cache.
+8. Parse, lay out, paint, and composite the page in the browser.
+
+Real browsers overlap many of these operations, reuse existing connections, and preload resources. The sequence is a mental model, not a rigid one-at-a-time pipeline.
+
+## Key takeaway
+
+The internet is a collection of layers that cooperate. DNS helps find destinations, transport protocols move data, TLS secures connections, HTTP defines application messages, servers handle application logic, CDNs distribute content, and browsers turn documents into experiences.
+
+Knowing these pieces gives you a practical debugging checklist. When a page does not load, ask: did DNS resolve? Did the connection succeed? Is the certificate valid? Did the server respond? Did the browser render the response correctly?
+
+That is the journey hidden behind a simple URL.
