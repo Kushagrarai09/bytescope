@@ -1,0 +1,4 @@
+import Link from 'next/link';
+import type { ArticleMeta } from '@/lib/types';
+import { ArrowUpRight, Clock3 } from 'lucide-react';
+export function ArticleCard({ article, featured = false }: { article: ArticleMeta; featured?: boolean }) { return <Link href={`/articles/${article.slug}`} className={`article-card ${featured ? 'article-card-featured' : ''}`}><div className="article-card-image" style={{ backgroundImage: `url("${article.cover}")` }} role="img" aria-label={`Cover image for ${article.title}`}/><div className="article-card-body"><span className="eyebrow">{article.category}</span><h3>{article.title}</h3><p>{article.description}</p><div className="article-card-meta"><span>{article.author}</span><span><Clock3 size={13}/> {article.readTime}</span><ArrowUpRight size={16}/></div></div></Link>; }
