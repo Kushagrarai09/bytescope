@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, Github, Linkedin, Lightbulb, Network, Code2, Telescope, BrainCircuit, MessageCircle, BookOpen } from 'lucide-react';
+import { ArrowUpRight, Github, Linkedin, Network, Code2, Telescope, BrainCircuit, MessageCircle, BookOpen } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About Kushagra Rai',
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About Kushagra Rai | ByteScope',
     description: 'The person and curiosity behind ByteScope.',
-    images: ['/images/kushagra-rai.jpg'],
+    images: ['/images/kushagra-rai.webp'],
   },
 };
 
