@@ -1,0 +1,2 @@
+'use client';import {useEffect} from 'react';
+export function ReadingHistoryTracker({slug}:{slug:string}){useEffect(()=>{try{const current=JSON.parse(localStorage.getItem('bytescope:reading-history')||'[]');const entries=Array.isArray(current)?current:[];const next=[{slug,visitedAt:new Date().toISOString()},...entries.filter((entry:{slug?:string})=>entry?.slug!==slug)].slice(0,100);localStorage.setItem('bytescope:reading-history',JSON.stringify(next));}catch{/* Optional enhancement; never block reading. */}},[slug]);return null;}

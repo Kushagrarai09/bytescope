@@ -1,0 +1,4 @@
+import type {Metadata} from 'next';
+import Link from 'next/link';import {ArticleCard} from '@/components/article-card';import {getAllArticles} from '@/lib/articles';
+export const metadata:Metadata={title:'Journal',description:'Essays, explainers and notes on technology, software and engineering.'};
+export default async function BlogPage(){const articles=await getAllArticles();return <main className="page-shell page-section"><div className="page-intro"><span className="eyebrow">THE BYTESCOPE JOURNAL</span><h1>Ideas worth <em>exploring.</em></h1><p>Long-form explainers, practical guides and thoughtful notes from the world of technology.</p></div><div className="explore-toolbar"><span>{articles.length} published stories</span><Link className="text-link" href="/archive">Browse the archive ↗</Link></div><div className="article-grid">{articles.map(article=><ArticleCard key={article.slug} article={article}/>)}</div></main>}

@@ -1,0 +1,3 @@
+import type {Metadata} from 'next';import {getAllArticles} from '@/lib/articles';import {ReadingHistoryList} from '@/components/reading-history-list';
+export const metadata:Metadata={title:'Reading history',description:'Revisit articles you have recently read on this device.'};
+export default async function ReadingHistoryPage(){const articles=await getAllArticles();return <main className="page-shell page-section"><div className="page-intro"><span className="eyebrow">YOUR PERSONAL LIBRARY</span><h1>Reading <em>history.</em></h1><p>Your recently opened ByteScope articles, stored privately in this browser.</p></div><ReadingHistoryList articles={articles}/></main>}
