@@ -35,7 +35,7 @@ export default function AboutPage() {
         </div>
         <div className="about-portrait-wrap">
           <div className="about-portrait-frame">
-            <Image src="/images/kushagra-rai.jpg" alt="Portrait of Kushagra Rai" width={474} height={600} priority className="about-portrait"/>
+            <Image src="/images/kushagra-rai.webp" alt="Portrait of Kushagra Rai" width={474} height={600} priority className="about-portrait"/>
           </div>
           <span className="about-portrait-caption">KUSHAGRA RAI · THE AUTHOR</span>
         </div>
